@@ -47,5 +47,5 @@ Includes a fix to prevent crashes on startup on some Linux machines. The fix wor
 Note that you may have to edit the file `Gruntfile.js` if you need to better dictate the order your files load in. Note how by default the game.js and resources.js are specified in a specific order.
 
 -------------------------------------------------------------------------------
-Copyright (C) 2011 - 2020 Olivier Biot, 2020 Marco Bolis
+Copyright (C) 2011 - 2020 Olivier Biot, 2020 Marco Bolis  
 melonJS is licensed under the [MIT License](http://www.opensource.org/licenses/mit-license.php)
