@@ -29,6 +29,9 @@ Running the game:
 
 And you will have the boilerplate example running on http://localhost:8000
 
+Every change you make to the code (except for changes to `index.html` and `index.css`), and game resources, will trigger a rebuild.  
+You need to reload the running game afterwards.
+
 ## Building Release Versions
 
 To build:
