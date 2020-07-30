@@ -18,22 +18,20 @@
         <div id="screen"></div>
 
         <!-- es5/es6 shim for legacy browsers" -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.11/es5-shim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.11/es5-sham.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-sham.min.js"></script>
+        <script src="lib/es5-shim/es5-shim.min.js"></script>
+        <script src="lib/es5-shim/es5-sham.min.js"></script>
+        <script src="lib/es6-shim/es6-shim.min.js"></script>
+        <script src="lib/es6-shim/es6-sham.min.js"></script>
 
-        <!-- melonJS Library -->
-        <script src="https://cdn.jsdelivr.net/npm/melonjs@latest/dist/melonjs.min.js"></script>
+	<!-- build:js:dist lib/melon/melonjs.min.js -->
+        <script src="lib/melon/melonjs.js"></script>
+        <script src="lib/melon/plugins/debug/debugPanel.js"></script>
+	<!-- /build -->
 
-        <!-- Plugin(s) -->
-        <script src="https://cdn.jsdelivr.net/npm/melonjs@latest/plugins/debug/debugPanel.js"></script>
-
-        <!-- build:js js/app.min.js -->
-
+        <!-- build:js:dist js/app.min.js -->
         <!-- Game Scripts -->
         <script type="text/javascript" src="js/game.js"></script>
-        <script type="text/javascript" src="build/js/resources.js"></script>
+        <script type="text/javascript" src="js/resources.js"></script>
 
         <script type="text/javascript" src="js/entities/entities.js"></script>
         <script type="text/javascript" src="js/entities/HUD.js"></script>

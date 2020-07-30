@@ -2,64 +2,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    concat: {
-      dist: {
-        src: [
-          'js/game.js',
-          'build/js/resources.js',
-          'js/**/*.js',
-        ],
-        dest: 'build/js/app.js'
-      }
-    },
-
-    copy: {
-      dist: {
-        files: [{
-          src: 'index.css',
-          dest: 'build/index.css'
-        },{
-          src: 'main.js',
-          dest: 'build/main.js'
-        },{
-          src: 'manifest.json',
-          dest: 'build/manifest.json'
-        },{
-          src: 'package.json',
-          dest: 'build/package.json'
-        },{
-          src: 'data/**/*',
-          dest: 'build/',
-          expand: true
-        },{
-          src: 'icons/*',
-          dest: 'build/',
-          expand: true
-        }]
-      }
-    },
-
-    clean: {
-      app: ['build/js/app.js'],
-      dist: ['build/','bin/'],
-    },
-
-    processhtml: {
-      dist: {
-        options: {
-          process: true,
-          data: {
-            title: '<%= pkg.name %>',
-          }
-        },
-        files: {
-          'build/index.html': ['index.html']
-        }
-      }
-    },
-
     replace : {
-      dist : {
+      build: {
         options : {
           usePrefix : false,
           force : true,
@@ -72,10 +16,82 @@ module.exports = function(grunt) {
         },
         files : [
           {
-            src : [ 'build/js/app.js' ],
-            dest : 'build/js/app.js'
+            src : [ 'js/**/*.js' ],
+            dest : 'build/',
+            expand: true
           }
         ]
+      },
+    },
+
+    copy: {
+      build: {
+        files: [{
+          src: 'node_modules/melonjs/dist/*.js',
+          dest: 'build/lib/melon/',
+          expand: true,
+          flatten: true
+        },{
+          cwd: 'node_modules/melonjs/',
+          src: 'plugins/debug/**/*',
+          dest: 'build/lib/melon/',
+          expand: true
+        },{
+          cwd: 'node_modules/',
+          src: ['es?-shim/*.js', 'es?-shim/*.map'],
+          dest: 'build/lib/',
+          expand: true
+        },{
+          src: 'index.css',
+          dest: 'build/index.css'
+        },{
+          src: 'package.json',
+          dest: 'build/package.json'
+        },{
+          src: 'data/**/*',
+          dest: 'build/',
+          expand: true
+        },{
+          src: 'icons/*',
+          dest: 'build/',
+          expand: true
+        }],
+      },
+    },
+
+    concat: {
+      dist: {
+        src: [
+          'build/js/game.js',
+          'build/js/resources.js',
+          'build/js/**/*.js',
+        ],
+        dest: 'build/js/app.js'
+      }
+    },
+
+    processhtml: {
+      dev: {
+        options: {
+          process: true,
+          data: {
+            title: '<%= pkg.name %> - DEV',
+          }
+        },
+        files: {
+          'build/index.html': ['index.html']
+        }
+      },
+      dist: {
+        options: {
+          process: true,
+          data: {
+            title: '<%= pkg.name %>',
+          }
+        },
+        files: {
+          'build/index.html': ['index.html']
+        }
       },
     },
 
@@ -93,6 +109,12 @@ module.exports = function(grunt) {
       }
     },
 
+    clean: {
+      app: ['build/js/app.js'],
+      build: ['build/js/**/*', '!**/*.min.js'],
+      dist: ['build/','bin/'],
+    },
+
     connect: {
       server: {
         options: {
@@ -103,27 +125,8 @@ module.exports = function(grunt) {
       }
     },
 
-    'download-electron': {
-      version: '1.4.6',
-      outputDir: 'bin',
-      rebuild: false,
-    },
-
-    asar: {
-      dist: {
-        cwd: 'build',
-        src: ['**/*', '!js/app.js'],
-        expand: true,
-        dest: 'bin/' + (
-          process.platform === 'darwin'
-            ? 'Electron.app/Contents/Resources/'
-            : 'resources/'
-        ) + 'app.asar'
-      },
-    },
-
     resources: {
-      dist: {
+      build: {
         options: {
           dest: 'build/js/resources.js',
           varname: 'game.resources',
@@ -155,8 +158,11 @@ module.exports = function(grunt) {
           spawn: false,
         },
       },
+      dev: {
+        files: ['js/**/*'],
+        tasks: ['replace']
+      },
     },
-
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -165,23 +171,22 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-processhtml');
-  grunt.loadNpmTasks("grunt-replace");
+  grunt.loadNpmTasks('grunt-replace');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-download-electron');
-  grunt.loadNpmTasks('grunt-asar');
 
   // Custom Tasks
   grunt.loadTasks('tasks');
 
   grunt.registerTask('default', [
     'resources',
-    'concat',
-    'replace',
-    'uglify',
     'copy',
-    'processhtml',
+    'replace',
+    'concat',
+    'uglify',
+    'processhtml:dist',
     'clean:app',
   ]);
-  grunt.registerTask('dist', ['default', 'download-electron', 'asar']);
-  grunt.registerTask('serve', ['resources', 'connect', 'watch']);
+  grunt.registerTask('dist', ['default']);
+  grunt.registerTask('build', ['resources', 'copy', 'replace', 'processhtml:dev']);
+  grunt.registerTask('serve', ['build', 'connect', 'watch']);
 }

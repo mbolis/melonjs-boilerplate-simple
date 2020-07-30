@@ -18,23 +18,23 @@
   "main": "main.js",
   "devDependencies": {
     "grunt": "^1.2.1",
-    "grunt-asar": "github:bwin/grunt-asar#update-asar",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "^2.1.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^4.0.1",
     "grunt-contrib-watch": "^1.1.0",
-    "grunt-download-electron": "^2.1.4",
-    "grunt-processhtml": "^0.4.1",
+    "grunt-processhtml": "^0.4.2",
     "grunt-replace": "^1.0.1"
   },
-  "dependencies": {
-    "coffeescript": "^2.5.1"
-  },
   "scripts": {
-    "build": "grunt",
-    "serve": "npm run build && grunt serve",
+    "build": "grunt build",
+    "serve": "grunt serve",
     "dist": "grunt dist"
+  },
+  "dependencies": {
+    "es5-shim": "^4.5.14",
+    "es6-shim": "^0.35.5",
+    "melonjs": "^7.1.1"
   }
 }
