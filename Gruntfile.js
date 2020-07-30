@@ -62,6 +62,7 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: [
+          'build/js/fix/*.js',
           'build/js/game.js',
           'build/js/resources.js',
           'build/js/**/*.js',
