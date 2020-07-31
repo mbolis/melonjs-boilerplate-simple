@@ -1,4 +1,5 @@
 (function() {
+  "use strict"
 
   function unroll(from, until, replace, template) {
     replace = new RegExp(replace, "g");

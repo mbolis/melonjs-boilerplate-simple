@@ -1,15 +1,14 @@
-game.TitleScreen = me.Stage.extend({
-    /**
-     *  action to perform on state change
-     */
+(function() {
+  "use strict"
+
+  game.TitleScreen = me.Stage.extend({
     onResetEvent: function() {
-        ; // TODO
+      // TODO
     },
 
-    /**
-     *  action to perform when leaving this screen (state change)
-     */
     onDestroyEvent: function() {
-        ; // TODO
+      // TODO
     }
-});
+  });
+
+}());
